@@ -1,6 +1,3 @@
--- New example script written by wally
--- You can suggest changes with a pull request or something
-
 local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
 
 local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
@@ -25,14 +22,49 @@ local LeftGroupBox = Tabs.Main:AddLeftGroupbox('Groupbox')
 -- Global variable to store whether the AutoGK is active or not
 local autoGKActive = false
 
--- Function to toggle the Auto GK
+-- Example: Basic AutoGK Logic
+local goalkeeper = game.Workspace.Goalkeeper -- Replace with the actual goalkeeper object
+local ball = game.Workspace.Ball -- Replace with the actual ball object
+
+-- Label to display the AutoGK status
+local statusLabel = LeftGroupBox:AddLabel("Auto GK Status: OFF")
+
+-- Function to update the status text on the UI
+local function updateStatusText(status)
+    statusLabel:SetText("Auto GK Status: " .. status)
+end
+
+local function enableAutoGK()
+    print("Auto GK is enabled!")
+    -- Example logic to make the goalkeeper follow or catch the ball
+    -- Make the goalkeeper move towards the ball (simplified)
+    while autoGKActive do
+        if ball and goalkeeper then
+            goalkeeper:MoveTo(ball.Position) -- Make goalkeeper move to ball's position
+        end
+        wait(0.1) -- Adjust wait time for smoother movement
+    end
+end
+
+local function disableAutoGK()
+    print("Auto GK is disabled!")
+    -- Stop the goalkeeper's movement or reset its state
+    if goalkeeper then
+        -- You may need to add specific code here to stop the goalkeeper's movement
+        -- This depends on how the goalkeeper's movement is controlled in your game
+    end
+end
+
+-- Function to toggle the Auto GK state
 local function toggleAutoGK()
     if autoGKActive then
         print("Auto GK turned OFF")
-        -- Add code here to disable auto GK catching
+        disableAutoGK()
+        updateStatusText("OFF")
     else
         print("Auto GK turned ON")
-        -- Add code here to enable auto GK catching
+        enableAutoGK()
+        updateStatusText("ON")
     end
     autoGKActive = not autoGKActive  -- Toggle the state
 end
@@ -51,6 +83,4 @@ LeftGroupBox:AddToggle('AutoGKToggle', {
     end
 })
 
--- Add more UI elements here...
-
--- Add buttons, sliders, etc., as needed for your menu...
+-- You can add more UI elements as needed for the menu...
